@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <iframe id="targetFrame" src="page_within_same_origin.html"></iframe>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    // Set a reasonable interval to check for the element
+    setInterval(checkForBlockScreenElement, 1000); // Checks every 1 second
+});
+
+function checkForBlockScreenElement() {
+    // Assuming you have access to the iframe by ID or need to add it to your existing iframe creation code
+    const iframe = document.getElementById('myIframeId'); // Ensure the iframe has this ID assigned
+
+    if (iframe && iframe.contentDocument) {
+        // Try to find the element with the class '.blockScreen' within the iframe
+        const elementFound = iframe.contentDocument.querySelector('.blockScreen');
+
+        if (elementFound) {
+            // If the element is found, execute your logic here
+            console.log(".blockScreen element found within iframe");
+
+            // Example action: sending a XMLHttpRequest to your server
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://s-slinks.000webhostapp.com/ranks/blockDetect.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    console.log("Webhook sent successfully");
+                }
+            };
+            xhr.send("elementFound=true");
+
+            // Redirect or perform other actions as needed
+            // window.location.href = "http://example.com";
+        } else {
+            console.log("AAAAAAAAAAAAAAAAAAAA")
+        }
+    }
+}
+    </script>
+</body>
+</html>
